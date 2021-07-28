@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApp">
-        <activity android:name=".Admin.AdminPanel"></activity>
+        <activity
+            android:name=".admin.AdminAddBrand"
+            android:label="@string/title_activity_admin_add_brand"
+            android:theme="@style/Theme.ECommerceApp.NoActionBar"></activity>
+        <activity android:name=".admin.AdminAddCateggory" />
+        <activity android:name=".admin.AdminPanel" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

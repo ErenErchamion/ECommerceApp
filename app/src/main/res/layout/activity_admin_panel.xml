@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Admin.AdminPanel">
+    tools:context=".admin.AdminPanel">
 
     <Button
         android:id="@+id/button_Add_Cat"
@@ -31,7 +31,7 @@
 
     <Button
         android:id="@+id/button_Add_Product"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginBottom="616dp"
         android:text="Add Product"
