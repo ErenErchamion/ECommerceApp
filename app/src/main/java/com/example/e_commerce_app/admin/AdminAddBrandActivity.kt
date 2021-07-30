@@ -19,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
-class AdminAddBrand : AppCompatActivity() {
+class AdminAddBrandActivity : AppCompatActivity() {
     lateinit var fileUri:Uri
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
