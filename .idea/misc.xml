@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/erene/StudioProjects/ECommerceApp/app/src/main/res/layout/activity_admin_add_brand.xml" value="0.4" />
+        <entry key="..\:/Users/erene/StudioProjects/ECommerceApp/app/src/main/res/layout/activity_brand_list.xml" value="0.2418478260869565" />
+        <entry key="..\:/Users/erene/StudioProjects/ECommerceApp/app/src/main/res/layout/recyclerlayout.xml" value="0.23953488372093024" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

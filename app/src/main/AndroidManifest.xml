@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApp">
         <activity
+            android:name=".admin.BrandList"
+            android:exported="true" />
+        <activity
             android:name=".admin.AdminAddBrand"
+            android:exported="true"
             android:label="@string/title_activity_admin_add_brand"
-            android:theme="@style/Theme.ECommerceApp.NoActionBar"
-            android:exported="true"></activity>
+            android:theme="@style/Theme.ECommerceApp.NoActionBar" />
         <activity android:name=".admin.AdminAddCateggory" />
         <activity android:name=".admin.AdminPanel" />
         <activity android:name=".ui.MainActivity">
