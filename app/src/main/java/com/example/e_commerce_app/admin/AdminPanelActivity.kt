@@ -12,9 +12,7 @@ class AdminPanelActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin_panel)
     }
     fun openBrandActivity(){
-        val intent = Intent(this, AdminAddBrandActivity::class.java)
-        val brandData=BrandData()
-        intent.putExtra("brand",brandData)
+        val intent = Intent(this, BrandListActivity::class.java)
         startActivity(intent)
 
     }

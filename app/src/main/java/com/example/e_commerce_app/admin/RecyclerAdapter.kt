@@ -22,7 +22,7 @@ class RecyclerAdapter(val context: Context):RecyclerView.Adapter<RecyclerAdapter
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         val brand:BrandData=brandList.get(position)
         holder.itemTitle.text=brand.brandName
-       // Glide.with(context).load(brand.brandImagePath).into(holder.itemImage)
+        Glide.with(context).load(brand.brandImagePath).into(holder.itemImage)
     }
 
     override fun getItemCount(): Int {

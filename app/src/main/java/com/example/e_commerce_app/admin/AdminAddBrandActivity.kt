@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import com.example.e_commerce_app.R
-import com.example.e_commerce_app.data.BrandCallBack
 import com.example.e_commerce_app.data.BrandData
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -21,27 +24,37 @@ import com.google.firebase.storage.UploadTask
 
 class AdminAddBrandActivity : AppCompatActivity() {
     lateinit var fileUri:Uri
+    var imageUrl:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_add_brand)
+        val backBtn=findViewById(R.id.backBtn) as ImageView
+        val actionBtn=findViewById(R.id.actionBtn) as ImageView
+        val titleTextView=findViewById(R.id.titleTv) as TextView
+        backBtn.setOnClickListener(){
+            onBackPressed()
+        }
+        actionBtn.isVisible=false
 
     }
 
 
-    fun addCategory(view: View){
+    fun addBrand(view:View){
         val db = FirebaseFirestore.getInstance()
 
+
         val brandnameEditText:EditText=findViewById(R.id.editTextBrandName)
-        val brandimagepathEditText:EditText=findViewById(R.id.editTextBrandImagePath)
+        val brandimagenameEditText:EditText=findViewById(R.id.editTextBrandImageName)
 
-        var brandname=brandnameEditText.text.toString()
-        var brandimagepath=brandimagepathEditText.text.toString()
+        val brandname=brandnameEditText.text.toString()
+        val brandimagename=brandimagenameEditText.text.toString()
 
-        var newBrand=BrandData()
+        val newBrand=BrandData()
 
         newBrand.brandName=brandname
-        newBrand.brandImagePath=brandimagepath
+        newBrand.brandImagePath=brandimagename
         newBrand.brandId=""
+        uploadImageToFirebase(fileUri)
 
         db.collection("Brands").document()
             .set(newBrand)
@@ -55,8 +68,9 @@ class AdminAddBrandActivity : AppCompatActivity() {
 
                     id=document.id
                     newBrand.brandName=brandname
-                    newBrand.brandImagePath=brandimagepath
                     newBrand.brandId=id
+                    newBrand.brandImagePath= imageUrl
+
 
                     db.collection("Brands").document(""+id)
                         .set(newBrand)
@@ -68,17 +82,12 @@ class AdminAddBrandActivity : AppCompatActivity() {
                 Log.w(TAG, "Error getting documents: ", exception)
             }
 
-
-        uploadImageToFirebase(fileUri)
-
-
-
     }
 
 
 
-    fun Upload(view: View){
-        var intent = Intent()
+    fun Upload(view:View){
+        val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(
@@ -123,7 +132,7 @@ class AdminAddBrandActivity : AppCompatActivity() {
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val FileNameText = findViewById(R.id.editTextBrandImagePath) as EditText
+            val FileNameText = findViewById(R.id.editTextBrandImageName) as EditText
             var filename=FileNameText.text.toString()
             var fileName = filename +".jpg"
 
@@ -134,7 +143,9 @@ class AdminAddBrandActivity : AppCompatActivity() {
                 .addOnSuccessListener(
                     OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            val imageUrl = it.toString()
+                            imageUrl = it.toString()
+                            Toast.makeText(applicationContext, ""+imageUrl, Toast.LENGTH_LONG).show()
+
                         }
                     })
 
