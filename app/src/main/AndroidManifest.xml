@@ -9,13 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApp">
-
+        <activity
+            android:name=".admin.AdminEditBrandActivity"
+            android:exported="true" />
         <activity
             android:name=".admin.AdminAddBrandActivity"
             android:exported="true"
             android:label="@string/title_activity_admin_add_brand"
             android:theme="@style/Theme.ECommerceApp.NoActionBar" />
-        <activity android:name=".admin.BrandListActivity"
+        <activity
+            android:name=".admin.BrandListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".admin.AdminPanelActivity"
-            android:exported="true"/>
-        <activity android:name=".ui.MainActivity">
-
-        </activity>
+        <activity
+            android:name=".admin.AdminPanelActivity"
+            android:exported="true" />
+        <activity android:name=".ui.MainActivity"></activity>
     </application>
 
 </manifest>

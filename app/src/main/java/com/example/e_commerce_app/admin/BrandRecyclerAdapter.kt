@@ -1,6 +1,7 @@
 package com.example.e_commerce_app.admin
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,21 +21,30 @@ class BrandRecyclerAdapter(val context: Context):RecyclerView.Adapter<BrandRecyc
     }
 
     override fun onBindViewHolder(holder: BrandRecyclerAdapter.ViewHolder, position: Int) {
-        val brand:BrandData=brandList.get(position)
-        holder.itemTitle.text=brand.brandName
-        Glide.with(context).load(brand.brandImagePath).into(holder.itemImage)
+        holder.currentBrand=brandList.get(position)
+        holder.itemTitle.text=   holder.currentBrand.brandName
+        Glide.with(context).load(   holder.currentBrand.brandImagePath).into(holder.itemImage)
     }
 
     override fun getItemCount(): Int {
       return brandList.size
     }
-    inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView),View.OnClickListener{
+        lateinit var currentBrand:BrandData
         var itemImage:ImageView
         var itemTitle:TextView
 
         init {
             itemImage=itemView.findViewById(R.id.imageView)
             itemTitle=itemView.findViewById(R.id.textView)
+            itemView.setOnClickListener(this)
+
+        }
+
+        override fun onClick(v: View?) {
+            val intent=Intent(context,AdminEditBrandActivity::class.java)
+            intent.putExtra("brand",currentBrand)
+            context.startActivity(intent)
         }
 
     }

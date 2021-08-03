@@ -23,8 +23,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
 class AdminAddBrandActivity : AppCompatActivity() {
-    lateinit var fileUri:Uri
-    var imageUrl:String?=null
+    private lateinit var fileUri:Uri
+    private var imageUrl:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_add_brand)
@@ -54,10 +55,12 @@ class AdminAddBrandActivity : AppCompatActivity() {
         newBrand.brandName=brandname
         newBrand.brandImagePath=brandimagename
         newBrand.brandId=""
-        uploadImageToFirebase(fileUri)
+
 
         db.collection("Brands").document()
             .set(newBrand)
+
+        uploadImageToFirebase(fileUri)
 
         db.collection("Brands")
             .whereEqualTo("brandName", ""+brandname)
@@ -69,7 +72,7 @@ class AdminAddBrandActivity : AppCompatActivity() {
                     id=document.id
                     newBrand.brandName=brandname
                     newBrand.brandId=id
-                    newBrand.brandImagePath= imageUrl
+                    newBrand.brandImagePath=imageUrl
 
 
                     db.collection("Brands").document(""+id)
