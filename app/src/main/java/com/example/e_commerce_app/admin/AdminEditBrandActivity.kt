@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.e_commerce_app.R
 import com.example.e_commerce_app.data.BrandData
 import com.google.android.gms.tasks.OnFailureListener
@@ -20,10 +21,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
 class AdminEditBrandActivity : AppCompatActivity() {
+
     private lateinit var fileUri:Uri
     private var imageUrl:String?=null
     lateinit var brand:BrandData
     lateinit var oldimagename:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_edit_brand)
@@ -43,11 +46,23 @@ class AdminEditBrandActivity : AppCompatActivity() {
 
         brandImageNameedittext.setText(""+oldimagename)
 
+        val media =(""+brand.brandImagePath)
+        if (media !== null) {
+            Glide.with(this)
+                .load(media)
+                .into(imageViewBrandEdit)
+        }
+
         imageViewBrandEdit.setOnClickListener {
             Upload()
         }
 
     }
+
+
+
+
+
 fun setBrand(){
     val db = FirebaseFirestore.getInstance()
 
@@ -67,14 +82,7 @@ fun setBrand(){
         .addOnSuccessListener {
             if(oldimagename!=brandimagename){
                 var oldStorage = FirebaseStorage.getInstance().reference.child("Brands/$oldimagename"+".jpg")
-                Toast.makeText(applicationContext, "Brands/$oldimagename"+".jpg", Toast.LENGTH_SHORT).show()
                     oldStorage.delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(applicationContext, "başarıyla silindi", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener{
-                            Toast.makeText(applicationContext, "silme başarısız", Toast.LENGTH_SHORT).show()
-                        }
 
             }
         }
