@@ -66,9 +66,15 @@ fun setBrand(){
 
         .addOnSuccessListener {
             if(oldimagename!=brandimagename){
-                Toast.makeText(applicationContext, ""+oldimagename, Toast.LENGTH_SHORT).show()
-                var oldStorage = FirebaseStorage.getInstance().reference.child("Brands/$oldimagename"+"jpg")
+                var oldStorage = FirebaseStorage.getInstance().reference.child("Brands/$oldimagename"+".jpg")
+                Toast.makeText(applicationContext, "Brands/$oldimagename"+".jpg", Toast.LENGTH_SHORT).show()
                     oldStorage.delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(applicationContext, "başarıyla silindi", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener{
+                            Toast.makeText(applicationContext, "silme başarısız", Toast.LENGTH_SHORT).show()
+                        }
 
             }
         }
