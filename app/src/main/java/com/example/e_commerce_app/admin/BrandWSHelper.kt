@@ -6,7 +6,7 @@ import com.example.e_commerce_app.data.BrandCallBack
 import com.example.e_commerce_app.data.BrandData
 import com.google.firebase.firestore.FirebaseFirestore
 
-class WSHelper {
+class BrandWSHelper {
 
     companion object {
         fun getBrandsFromFireStore(brandCallBack: BrandCallBack){

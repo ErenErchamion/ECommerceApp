@@ -11,15 +11,15 @@ import com.bumptech.glide.Glide
 import com.example.e_commerce_app.R
 import com.example.e_commerce_app.data.BrandData
 
-class RecyclerAdapter(val context: Context):RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class BrandRecyclerAdapter(val context: Context):RecyclerView.Adapter<BrandRecyclerAdapter.ViewHolder>() {
     var brandList:ArrayList<BrandData> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandRecyclerAdapter.ViewHolder {
        val v=LayoutInflater.from(parent.context).inflate(R.layout.recyclerlayout,parent,false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BrandRecyclerAdapter.ViewHolder, position: Int) {
         val brand:BrandData=brandList.get(position)
         holder.itemTitle.text=brand.brandName
         Glide.with(context).load(brand.brandImagePath).into(holder.itemImage)

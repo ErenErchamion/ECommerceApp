@@ -28,9 +28,9 @@ class AdminAddBrandActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_add_brand)
-        val backBtn=findViewById(R.id.backBtn) as ImageView
-        val actionBtn=findViewById(R.id.actionBtn) as ImageView
-        val titleTextView=findViewById(R.id.titleTv) as TextView
+        val backBtn= findViewById<ImageView>(R.id.backBtn)
+        val actionBtn= findViewById<ImageView>(R.id.actionBtn)
+        val titleTextView= findViewById<TextView>(R.id.titleTv)
         backBtn.setOnClickListener(){
             onBackPressed()
         }
@@ -46,8 +46,8 @@ class AdminAddBrandActivity : AppCompatActivity() {
         val brandnameEditText:EditText=findViewById(R.id.editTextBrandName)
         val brandimagenameEditText:EditText=findViewById(R.id.editTextBrandImageName)
 
-        val brandname=brandnameEditText.text.toString()
-        val brandimagename=brandimagenameEditText.text.toString()
+        var brandname=brandnameEditText.text.toString()
+        var brandimagename=brandimagenameEditText.text.toString()
 
         val newBrand=BrandData()
 
@@ -75,6 +75,7 @@ class AdminAddBrandActivity : AppCompatActivity() {
                     db.collection("Brands").document(""+id)
                         .set(newBrand)
 
+                    Toast.makeText(applicationContext, "başarıyla yeni marka eklediniz", Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "${document.id} => ${document.data}")
                 }
             }
@@ -132,19 +133,19 @@ class AdminAddBrandActivity : AppCompatActivity() {
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val FileNameText = findViewById(R.id.editTextBrandImageName) as EditText
-            var filename=FileNameText.text.toString()
+            val fileNameText = findViewById<EditText>(R.id.editTextBrandImageName)
+            var filename=fileNameText.text.toString()
             var fileName = filename +".jpg"
 
 
-            val refStorage = FirebaseStorage.getInstance().reference.child("Brands/$fileName")
+            var refStorage = FirebaseStorage.getInstance().reference.child("Brands/$fileName")
 
             refStorage.putFile(fileUri)
                 .addOnSuccessListener(
                     OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
-                            Toast.makeText(applicationContext, ""+imageUrl, Toast.LENGTH_LONG).show()
+
 
                         }
                     })
