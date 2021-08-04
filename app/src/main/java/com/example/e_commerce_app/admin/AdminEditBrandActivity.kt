@@ -2,6 +2,7 @@ package com.example.e_commerce_app.admin
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,17 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import java.io.ByteArrayOutputStream
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition;
+import android.graphics.drawable.Drawable
+import androidx.annotation.Nullable
+import androidx.core.net.toUri
+import java.io.File
+
+
 
 class AdminEditBrandActivity : AppCompatActivity() {
 
@@ -48,10 +60,17 @@ class AdminEditBrandActivity : AppCompatActivity() {
 
         val media =(""+brand.brandImagePath)
         if (media !== null) {
-            Glide.with(this)
-                .load(media)
-                .into(imageViewBrandEdit)
+            Glide.with(this).asBitmap().load(media).into(object : CustomTarget<Bitmap?>() {
+                override fun onResourceReady(resource: Bitmap, @Nullable transition: Transition<in Bitmap?>?) {
+                    imageViewBrandEdit.setImageBitmap(resource)
+                    getImageUriFromBitmap(resource)
+
+                }
+                override fun onLoadCleared(@Nullable placeholder: Drawable?) {}
+            })
+
         }
+
 
         imageViewBrandEdit.setOnClickListener {
             Upload()
@@ -60,6 +79,24 @@ class AdminEditBrandActivity : AppCompatActivity() {
     }
 
 
+    fun getImageUriFromBitmap(photo: Bitmap){
+
+
+
+        val file = File(this.cacheDir,"CUSTOM NAME") //Get Access to a local file.
+        file.delete() // Delete the File, just in Case, that there was still another File
+        file.createNewFile()
+        val fileOutputStream = file.outputStream()
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        photo.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream)
+        val bytearray = byteArrayOutputStream.toByteArray()
+        fileOutputStream.write(bytearray)
+        fileOutputStream.flush()
+        fileOutputStream.close()
+        byteArrayOutputStream.close()
+
+        fileUri= file.toUri()
+    }
 
 
 
