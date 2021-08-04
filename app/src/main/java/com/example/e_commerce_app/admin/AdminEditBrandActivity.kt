@@ -29,6 +29,12 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.Nullable
 import androidx.core.net.toUri
 import java.io.File
+import androidx.annotation.NonNull
+
+import com.google.firebase.storage.StorageReference
+
+
+
 
 
 
@@ -122,6 +128,9 @@ fun setBrand(){
                     oldStorage.delete()
 
             }
+                Toast.makeText(applicationContext, "markayı başarıyla güncellediniz", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, BrandListActivity::class.java)
+                startActivity(intent)
         }
 
         .addOnFailureListener { e ->
@@ -138,10 +147,6 @@ fun updateBrand(view: View){
     uploadImageToFirebase(fileUri)
 
 }
-
-
-
-
 
     fun Upload(){
         val intent = Intent()
@@ -215,7 +220,31 @@ fun updateBrand(view: View){
 
     }
 
+fun DeleteBrand(view: View){
+    val db = FirebaseFirestore.getInstance()
 
+    db.collection("Brands").document(""+brand.brandId)
+        .delete()
+        .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+        .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+
+    val fileNameText = findViewById<EditText>(R.id.editTextEditBrandImageName)
+    var filename=fileNameText.text.toString()
+    var fileName = filename +".jpg"
+
+    val storageUrl = ("Brands/"+fileName)
+    val storageReference = FirebaseStorage.getInstance().reference.child(storageUrl)
+    storageReference.delete().addOnSuccessListener { // File deleted successfully
+        Toast.makeText(applicationContext, "markayı başarıyla güncellediniz", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, BrandListActivity::class.java)
+        startActivity(intent)
+    }.addOnFailureListener { // Uh-oh, an error occurred!
+        Log.d(TAG, "onFailure: did not delete file")
+    }
+
+
+}
 
 }
 

@@ -39,8 +39,7 @@ class AdminAddBrandActivity : AppCompatActivity() {
 
     }
 
-
-    fun addBrand(view:View){
+    fun setBrand(){
         val db = FirebaseFirestore.getInstance()
 
 
@@ -60,7 +59,6 @@ class AdminAddBrandActivity : AppCompatActivity() {
         db.collection("Brands").document()
             .set(newBrand)
 
-        uploadImageToFirebase(fileUri)
 
         db.collection("Brands")
             .whereEqualTo("brandName", ""+brandname)
@@ -85,6 +83,12 @@ class AdminAddBrandActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents: ", exception)
             }
+        val intent = Intent(this, BrandListActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun addBrand(view:View){
+        uploadImageToFirebase(fileUri)
 
     }
 
@@ -148,6 +152,7 @@ class AdminAddBrandActivity : AppCompatActivity() {
                     OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
+                            setBrand()
 
 
                         }
