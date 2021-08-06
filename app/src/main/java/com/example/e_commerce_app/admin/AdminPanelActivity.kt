@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.e_commerce_app.R
-import com.example.e_commerce_app.data.BrandData
+import com.example.e_commerce_app.admin.brand.BrandListActivity
 
 class AdminPanelActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

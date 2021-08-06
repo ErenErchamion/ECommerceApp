@@ -1,4 +1,4 @@
-package com.example.e_commerce_app.admin
+package com.example.e_commerce_app.admin.brand
 
 import android.content.Context
 import android.content.Intent
@@ -15,12 +15,12 @@ import com.example.e_commerce_app.data.BrandData
 class BrandRecyclerAdapter(val context: Context):RecyclerView.Adapter<BrandRecyclerAdapter.ViewHolder>() {
     var brandList:ArrayList<BrandData> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandRecyclerAdapter.ViewHolder {
-       val v=LayoutInflater.from(parent.context).inflate(R.layout.recyclerlayout,parent,false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+       val v=LayoutInflater.from(parent.context).inflate(R.layout.brandrecyclerlayout,parent,false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: BrandRecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.currentBrand=brandList.get(position)
         holder.itemTitle.text=   holder.currentBrand.brandName
         Glide.with(context).load(   holder.currentBrand.brandImagePath).into(holder.itemImage)
@@ -35,14 +35,14 @@ class BrandRecyclerAdapter(val context: Context):RecyclerView.Adapter<BrandRecyc
         var itemTitle:TextView
 
         init {
-            itemImage=itemView.findViewById(R.id.imageView)
-            itemTitle=itemView.findViewById(R.id.textView)
+            itemImage=itemView.findViewById(R.id.imageViewBrandRecycler)
+            itemTitle=itemView.findViewById(R.id.textViewBrandTitle)
             itemView.setOnClickListener(this)
 
         }
 
         override fun onClick(v: View?) {
-            val intent=Intent(context,AdminEditBrandActivity::class.java)
+            val intent=Intent(context, BrandUpdateActivity::class.java)
             intent.putExtra("brand",currentBrand)
             context.startActivity(intent)
         }

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AdminAddBrandActivity">
+    tools:context=".admin.brand.BrandAddActivity">
     <include layout="@layout/admin_pbc_menu"/>
+
     <ImageView
         android:id="@+id/brandImageView"
-        android:layout_width="226dp"
-        android:layout_height="210dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:layout_marginTop="40dp"
         android:onClick="Upload"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,7 @@
         app:layout_constraintVertical_bias="0.125" />
 
     <Button
-        android:id="@+id/buttonAddCategory"
+        android:id="@+id/buttonAddBrand"
         android:layout_width="209dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"

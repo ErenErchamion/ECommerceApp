@@ -1,4 +1,4 @@
-package com.example.e_commerce_app.admin
+package com.example.e_commerce_app.admin.brand
 
 import android.content.ContentValues
 import android.util.Log

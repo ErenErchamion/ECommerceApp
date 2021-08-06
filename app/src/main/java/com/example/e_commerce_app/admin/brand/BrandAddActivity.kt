@@ -1,4 +1,4 @@
-package com.example.e_commerce_app.admin
+package com.example.e_commerce_app.admin.brand
 
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 
-class AdminAddBrandActivity : AppCompatActivity() {
+class BrandAddActivity : AppCompatActivity() {
     private lateinit var fileUri:Uri
     private var imageUrl:String?=null
 
@@ -49,10 +49,11 @@ class AdminAddBrandActivity : AppCompatActivity() {
         var brandname=brandnameEditText.text.toString()
         var brandimagename=brandimagenameEditText.text.toString()
 
+
         val newBrand=BrandData()
 
         newBrand.brandName=brandname
-        newBrand.brandImagePath=brandimagename
+        newBrand.brandImagePath=""
         newBrand.brandId=""
 
 

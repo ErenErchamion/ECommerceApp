@@ -1,8 +1,7 @@
-package com.example.e_commerce_app.admin
+package com.example.e_commerce_app.admin.brand
 
 import android.app.Activity
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import android.graphics.Bitmap
-import android.provider.MediaStore
 import java.io.ByteArrayOutputStream
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition;
@@ -29,16 +27,9 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.Nullable
 import androidx.core.net.toUri
 import java.io.File
-import androidx.annotation.NonNull
-
-import com.google.firebase.storage.StorageReference
 
 
-
-
-
-
-class AdminEditBrandActivity : AppCompatActivity() {
+class BrandUpdateActivity : AppCompatActivity() {
 
     private lateinit var fileUri:Uri
     private var imageUrl:String?=null
@@ -50,7 +41,7 @@ class AdminEditBrandActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin_edit_brand)
 
         brand= intent.getSerializableExtra("brand") as BrandData
-        brand.brandId
+
 
         val brandnameedittext:EditText=findViewById(R.id.editTextEditBrandName)
         val brandImageNameedittext:EditText=findViewById(R.id.editTextEditBrandImageName)

@@ -1,4 +1,4 @@
-package com.example.e_commerce_app.admin
+package com.example.e_commerce_app.admin.brand
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +23,7 @@ class BrandListActivity : AppCompatActivity() {
             onBackPressed()
         }
         actionBtn.setOnClickListener(){
-            val intent = Intent(this, AdminAddBrandActivity::class.java)
+            val intent = Intent(this, BrandAddActivity::class.java)
             startActivity(intent)
 
         }
@@ -33,12 +33,12 @@ class BrandListActivity : AppCompatActivity() {
     fun init(){
         val recylerView=findViewById<RecyclerView>(R.id.recycler_view)
         recylerView.layoutManager=LinearLayoutManager(this)
-        recylerView.adapter=BrandRecyclerAdapter(this)
-        BrandWSHelper.getBrandsFromFireStore(object :BrandCallBack{
+        recylerView.adapter= BrandRecyclerAdapter(this)
+        BrandWSHelper.getBrandsFromFireStore(object : BrandCallBack {
             override fun brandListResponse(brandList: ArrayList<BrandData>) {
-             runOnUiThread {
-                 (recylerView.adapter as BrandRecyclerAdapter).setList(brandList)
-             }
+                runOnUiThread {
+                    (recylerView.adapter as BrandRecyclerAdapter).setList(brandList)
+                }
             }
         })
     }

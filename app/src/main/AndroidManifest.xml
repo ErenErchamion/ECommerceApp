@@ -10,15 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApp">
         <activity
-            android:name=".admin.AdminEditBrandActivity"
+            android:name=".admin.category.CategoryUpdateActivity"
             android:exported="true" />
         <activity
-            android:name=".admin.AdminAddBrandActivity"
+            android:name=".admin.category.CategoryListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.category.CategoryAddActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.brand.BrandUpdateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.brand.BrandAddActivity"
             android:exported="true"
             android:label="@string/title_activity_admin_add_brand"
             android:theme="@style/Theme.ECommerceApp.NoActionBar" />
         <activity
-            android:name=".admin.BrandListActivity"
+            android:name=".admin.brand.BrandListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +38,7 @@
         <activity
             android:name=".admin.AdminPanelActivity"
             android:exported="true" />
-        <activity android:name=".ui.MainActivity"></activity>
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>
