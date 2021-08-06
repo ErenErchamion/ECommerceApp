@@ -23,6 +23,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_update)
         parrentCategory= intent.getSerializableExtra("parrentcategory") as CategoryData
+        setResult(RESULT_OK)
     }
 
 

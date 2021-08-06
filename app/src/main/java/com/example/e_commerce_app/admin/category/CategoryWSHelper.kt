@@ -24,7 +24,8 @@ class CategoryWSHelper
                         category.catName=document.getString("catName")!!
                         category.catImagePath=document.getString("catImagePath")!!
                         category.catParrentId=document.getString("catParrentId")!!
-                        category.subCat= document.get("subCat") as List<CategoryData>?
+                        if (document.get("subCat")!=null)
+                          category.subCat= categoryHashMapListToCategoryDataList(document.get("subCat") as List<HashMap<String, String>>)
                         catList.add(category)
 
 
@@ -35,6 +36,22 @@ class CategoryWSHelper
                 .addOnFailureListener { exception ->
                     Log.d(ContentValues.TAG, "Error getting documents: ", exception)
                 }
+        }
+
+        fun categoryHashMapToCategoryData(hashMap: HashMap<String,String>):CategoryData{
+            val categoryData=CategoryData()
+            categoryData.catName= hashMap.get("catName").toString()
+            // TODO: 8/6/2021 diğer fieldları doldur
+
+            return categoryData
+        }
+
+        fun categoryHashMapListToCategoryDataList(listMap:List<HashMap<String,String>>):List<CategoryData>{
+            val arrayList:ArrayList<CategoryData> = ArrayList()
+            for (hashMap in listMap){
+                arrayList.add(categoryHashMapToCategoryData(hashMap))
+            }
+            return arrayList
         }
     }
 }
