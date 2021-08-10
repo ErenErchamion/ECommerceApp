@@ -3,6 +3,7 @@ package com.example.e_commerce_app.admin.category
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.e_commerce_app.R
 import com.example.e_commerce_app.data.BrandData
 import com.example.e_commerce_app.data.CategoryData
+import org.w3c.dom.Text
 
 class CategoryRecyclerAdapter(val context: Activity): RecyclerView.Adapter<CategoryRecyclerAdapter.ViewHolder>() {
     var catList:ArrayList<CategoryData> = ArrayList()
@@ -34,10 +36,25 @@ class CategoryRecyclerAdapter(val context: Activity): RecyclerView.Adapter<Categ
 
     fun bindSubCatList(rootLy:LinearLayout,subCatList:List<CategoryData>?){
         rootLy.removeAllViews()
-        // TODO: 8/6/2021 subCatList for ile dönceksin
-        // TODO: 8/6/2021 subCat xml inden view inflate edeceksin
-        // TODO: 8/6/2021 for içinde inflate ettigin viewin imageview,categoryName gibi alanlarını dolduracaksın
-        // TODO: 8/6/2021 rootLy.addview methoduyla rootLy a olusan view'i ekleyeceksin
+        if (subCatList!=null){
+            for (categoryData:CategoryData in subCatList){
+                val childRootLy=LayoutInflater.from(context).inflate(R.layout.categorysubrecyclerlayout,null)
+
+                val subCatImageView:ImageView=childRootLy.findViewById(R.id.imageViewCategoryRecyclerSub)
+                val subCatTextView:TextView=childRootLy.findViewById(R.id.textViewCategoryRecyclerSub)
+
+                Glide.with(context).load(categoryData.catImagePath).into(subCatImageView)
+                subCatTextView.setText(categoryData.catName)
+
+                childRootLy.setOnClickListener{
+                    /*val intent = Intent(context, CategoryUpdateActivity::class.java)
+                    intent.putExtra("SubCategory",categoryData)
+                    context.startActivityForResult(intent,1)*/
+                }
+
+                rootLy.addView(childRootLy)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

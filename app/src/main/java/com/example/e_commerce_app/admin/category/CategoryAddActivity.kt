@@ -28,7 +28,7 @@ class CategoryAddActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category_add)
 
         val buttonAddCategory:Button=findViewById(R.id.buttonAddSubCategory)
-        val imageViewCategoryImage:ImageView=findViewById(R.id.imageViewSubCategoryImage)
+        val imageViewCategoryImage:ImageView=findViewById(R.id.imageViewEditCategoryImage)
         buttonAddCategory.setOnClickListener(){
             uploadImageToFirebase(fileUri)
         }
@@ -40,16 +40,11 @@ class CategoryAddActivity : AppCompatActivity() {
 
 fun addCategory(){
     val list:ArrayList<CategoryData> = ArrayList()
-
-    /*val subCategory:CategoryData = CategoryData()
-    subCategory.catName="asdas"
-    subCategory.catParrentId="asedas"
-    subCategory.catId="asdasdad"
-    list.add(subCategory)*/
+    
     val db = FirebaseFirestore.getInstance()
 
-    val catnameEditText:EditText=findViewById(R.id.editTextSubCategoryName)
-    val catimagenameEditText:EditText=findViewById(R.id.editTextTextSubCategoryImageName)
+    val catnameEditText:EditText=findViewById(R.id.editTextCategoryEditName)
+    val catimagenameEditText:EditText=findViewById(R.id.editTextCategoryEditImageName)
 
     var catname=catnameEditText.text.toString()
     var catimagename=catimagenameEditText.text.toString()
@@ -61,7 +56,7 @@ fun addCategory(){
     newCategory.catId=""
     newCategory.catImagePath=imageUrl
     newCategory.catParrentId=""
-   // newCategory.subCat=list
+
 
 
 
@@ -139,7 +134,7 @@ fun addCategory(){
             // Get the Uri of data
             if (data!=null&&data.data!=null){
                 fileUri = data.data!!
-                val categoryImageView: ImageView =findViewById(R.id.imageViewSubCategoryImage)
+                val categoryImageView: ImageView =findViewById(R.id.imageViewEditCategoryImage)
                 categoryImageView.setImageURI(fileUri)
             }
 
@@ -150,7 +145,7 @@ fun addCategory(){
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextSubCategoryName)
+            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditName)
             var filename=fileNameText.text.toString()
             var fileName = filename +".jpg"
 
@@ -161,6 +156,7 @@ fun addCategory(){
                 .addOnSuccessListener(
                     OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+
                             imageUrl = it.toString()
                             addCategory()
 

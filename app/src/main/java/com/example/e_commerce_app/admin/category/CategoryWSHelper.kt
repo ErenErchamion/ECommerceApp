@@ -41,7 +41,10 @@ class CategoryWSHelper
         fun categoryHashMapToCategoryData(hashMap: HashMap<String,String>):CategoryData{
             val categoryData=CategoryData()
             categoryData.catName= hashMap.get("catName").toString()
-            // TODO: 8/6/2021 diğer fieldları doldur
+            categoryData.catId= hashMap.get("catId").toString()
+            categoryData.catParrentId= hashMap.get("catParrentId").toString()
+            categoryData.catImagePath= hashMap.get("catImagePath").toString()
+
 
             return categoryData
         }

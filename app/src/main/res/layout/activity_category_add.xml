@@ -7,7 +7,7 @@
     tools:context=".admin.category.CategoryAddActivity">
 
     <EditText
-        android:id="@+id/editTextSubCategoryName"
+        android:id="@+id/editTextCategoryEditName"
         android:layout_width="220dp"
         android:layout_height="48dp"
         android:layout_marginTop="72dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextSubCategoryImageName"
+        android:id="@+id/editTextCategoryEditImageName"
         android:layout_width="220dp"
         android:layout_height="48dp"
         android:layout_marginTop="56dp"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewSubCategoryImage" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEditCategoryImage" />
 
     <Button
         android:id="@+id/buttonAddSubCategory"
@@ -41,16 +41,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextSubCategoryImageName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCategoryEditImageName" />
 
     <ImageView
-        android:id="@+id/imageViewSubCategoryImage"
+        android:id="@+id/imageViewEditCategoryImage"
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSubCategoryName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCategoryEditName"
         tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
