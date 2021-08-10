@@ -35,7 +35,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_update)
         parrentCategory= intent.getSerializableExtra("parrentcategory") as CategoryData
-        subCategory= intent.getSerializableExtra("subcategory") as CategoryData
+
 
 
         setResult(RESULT_OK)
@@ -43,6 +43,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
 
         val updateButton:Button=findViewById(R.id.buttonUpdateCategory)
         val deleteButton:Button=findViewById(R.id.buttonDeleteCategory)
+        val addsubCatButton:Button=findViewById(R.id.buttonAddSubCategory)
         val updateCatImageView:ImageView=findViewById(R.id.imageViewEditCategoryImage)
 
         updateButton.setOnClickListener(){
@@ -53,6 +54,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
         }
         updateCatImageView.setOnClickListener(){
             Upload()
+        }
+        addsubCatButton.setOnClickListener(){
+            uploadImageToFirebaseAddSub(fileUri)
         }
     }
 
@@ -164,9 +168,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
                             Toast.makeText(applicationContext, "Resim Başarıyla Yüklendi", Toast.LENGTH_SHORT).show()
-                            if(fileNameText.toString()!=oldimagename){
-                                deleteOldImage(oldimagename)
-                            }
+                            addSubCategory(parrentCategory)
 
                         }
                     }
@@ -266,6 +268,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
 
 
                                             }
+
     fun addSubCategory(oldCategory: CategoryData){
 
         val editTextCategoryEditName:TextView=findViewById(R.id.editTextCategoryEditName)
@@ -275,15 +278,25 @@ class CategoryUpdateActivity : AppCompatActivity() {
         val subCategoryName=editTextCategoryEditName.text.toString()
         val subCategoryImageName=editTextTextCategoryEditImageName.text.toString()
 
+        val newSubCategory=CategoryData()
+        val parrentCategory=oldCategory
+
+        with(newSubCategory){
+            newSubCategory.catName=subCategoryName
+            newSubCategory.catParrentId=parrentCategory.catId
+            newSubCategory.catImagePath=imageUrl
+            newSubCategory.catId=parrentCategory.catId+(""+subCategoryName)
+        }
+        val arrayList:ArrayList<CategoryData>  = ArrayList()
+        if(parrentCategory.subCat!=null)
+            arrayList.addAll(parrentCategory.subCat!!)
+            arrayList.add(newSubCategory)
+            parrentCategory.subCat = arrayList
 
 
 
-
-            db.collection("Categories").document(""+oldCategory.catId)
-                .update(mapOf(
-
-
-                ))
+        val docref = db.collection("Categories").document(""+parrentCategory.catId)
+            .set(parrentCategory)
 
 
 
