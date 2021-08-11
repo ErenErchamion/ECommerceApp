@@ -1,5 +1,6 @@
 package com.example.e_commerce_app.admin.category
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.annotation.Nullable
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -25,32 +27,56 @@ import java.io.File
 
 class CategoryUpdateActivity : AppCompatActivity() {
     lateinit var parrentCategory:CategoryData
+
+    lateinit var subCategoryParrentId:String
+    var subCategoryIndex=0
     lateinit var subCategory:CategoryData
     private lateinit var fileUri:Uri
     private var imageUrl:String?=null
+
     lateinit var oldimagename:String
     var isSub=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_update)
-        parrentCategory= intent.getSerializableExtra("parrentcategory") as CategoryData
 
-
-
-        setResult(RESULT_OK)
-        setOldCategory(parrentCategory)
-
+        val intent = intent
         val updateButton:Button=findViewById(R.id.buttonUpdateCategory)
         val deleteButton:Button=findViewById(R.id.buttonDeleteCategory)
         val addsubCatButton:Button=findViewById(R.id.buttonAddSubCategory)
         val updateCatImageView:ImageView=findViewById(R.id.imageViewEditCategoryImage)
 
+        if (intent.hasExtra("parrentcategory")) {
+            parrentCategory= intent.getSerializableExtra("parrentcategory") as CategoryData
+            setOldCategory(parrentCategory)
+            isSub=false
+
+        } else {
+            subCategoryParrentId=intent.getSerializableExtra("subCategoryParentCategory") as String
+            subCategory=intent.getSerializableExtra("subCategory") as CategoryData
+            subCategoryIndex=intent.getSerializableExtra("index") as Int
+            setOldCategory(subCategory)
+            isSub=true
+            addsubCatButton.isVisible=false
+
+        }
+
+        setResult(RESULT_OK)
+
+
         updateButton.setOnClickListener(){
-            uploadImageToFirebaseUpdate(fileUri)
+            if(isSub==false){
+                uploadImageToFirebaseUpdate(fileUri)
+            }
+            else{
+                uploadImageToFirebaseUpdateSub(fileUri)
+            }
         }
         deleteButton.setOnClickListener(){
-            deleteOldCategory(parrentCategory)
+            if(isSub==false){
+                deleteOldCategory(parrentCategory)
+            }
         }
         updateCatImageView.setOnClickListener(){
             Upload()
@@ -60,6 +86,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun setOldCategory(oldCategory:CategoryData){
 
         val editTextSubCategoryName:TextView=findViewById(R.id.editTextCategoryEditName)
@@ -298,14 +325,73 @@ class CategoryUpdateActivity : AppCompatActivity() {
         val docref = db.collection("Categories").document(""+parrentCategory.catId)
             .set(parrentCategory)
 
+    }
+
+    private fun uploadImageToFirebaseUpdateSub(fileUri: Uri?) {
+        if (fileUri != null) {
+
+            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditImageName)
+            var filename=fileNameText.text.toString()
+            var fileName = filename +".jpg"
+
+
+            var refStorage = FirebaseStorage.getInstance().reference.child("Categories/$fileName")
+
+            refStorage.putFile(fileUri)
+                .addOnSuccessListener(
+                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            imageUrl = it.toString()
+                            Toast.makeText(applicationContext, "Resim Başarıyla Yüklendi", Toast.LENGTH_SHORT).show()
+                            if(fileNameText.toString()!=oldimagename){
+                                deleteOldImage(oldimagename)
+                                updateCategorySub()
+
+                            }
+
+                        }
+                    }
+
+
+                )
+
+                ?.addOnFailureListener(OnFailureListener { e ->
+                    print(e.message)
+                })
+        }
+
+    }
 
 
 
+    fun updateCategorySub(){
+        val editTextCategoryEditName:TextView=findViewById(R.id.editTextCategoryEditName)
+        val categorySubName=editTextCategoryEditName.text.toString()
+        val db = FirebaseFirestore.getInstance()
+        var arrayList:ArrayList<CategoryData>  = ArrayList()
+        val newCategory=CategoryData()
+
+        val docref = db.collection("Categories").document(""+subCategoryParrentId)
+            docref.get()
+            .addOnSuccessListener { document ->
+                newCategory.catId= document.getString("catId")
+                newCategory.catName=document.getString("catName")
+                newCategory.catImagePath=document.getString("catImagePath")
+                newCategory.catParrentId=document.getString("catParrentId")
 
 
+                val categoryList=CategoryWSHelper.categoryHashMapListToCategoryDataList(document.get("subCat") as List<HashMap<String, String>>)
+                     categoryList.get(subCategoryIndex).catName=categorySubName
+                     categoryList.get(subCategoryIndex).catImagePath=imageUrl
+                     newCategory.subCat=categoryList
 
+               /* arrayList.addAll(categoryList)
+                arrayList.removeAt(subCategoryIndex)
+                newCategory.subCat=arrayList*/
 
-
+                val docrefupdate = db.collection("Categories").document(""+subCategoryParrentId)
+                    .set(newCategory)
+            }
 
 
 
@@ -315,7 +401,6 @@ class CategoryUpdateActivity : AppCompatActivity() {
 
 
     }
-
 
 
 

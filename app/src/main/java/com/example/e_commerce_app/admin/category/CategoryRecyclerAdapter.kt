@@ -47,9 +47,12 @@ class CategoryRecyclerAdapter(val context: Activity): RecyclerView.Adapter<Categ
                 subCatTextView.setText(categoryData.catName)
 
                 childRootLy.setOnClickListener{
-                    /*val intent = Intent(context, CategoryUpdateActivity::class.java)
-                    intent.putExtra("SubCategory",categoryData)
-                    context.startActivityForResult(intent,1)*/
+                    val intent = Intent(context, CategoryUpdateActivity::class.java)
+                    intent.putExtra("subCategory",categoryData)
+                    intent.putExtra("subCategoryParentCategory",categoryData.catParrentId)
+                    intent.putExtra("index",subCatList.indexOf(categoryData))
+
+                    context.startActivityForResult(intent,1)
                 }
 
                 rootLy.addView(childRootLy)
