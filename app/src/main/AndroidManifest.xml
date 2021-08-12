@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApp">
         <activity
+            android:name=".admin.Product.ProductAddActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.category.CategoryUpdateActivity"
             android:exported="true" />
         <activity

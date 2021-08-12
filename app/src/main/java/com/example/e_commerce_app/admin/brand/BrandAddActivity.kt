@@ -141,6 +141,7 @@ class BrandAddActivity : AppCompatActivity() {
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
+            TODO("time stamp gelicek")
             val fileNameText = findViewById<EditText>(R.id.editTextBrandImageName)
             var filename=fileNameText.text.toString()
             var fileName = filename +".jpg"
