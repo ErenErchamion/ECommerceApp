@@ -77,6 +77,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
             if(isSub==false){
                 deleteOldCategory(parrentCategory)
             }
+            else{
+                deleteCategorySub()
+            }
         }
         updateCatImageView.setOnClickListener(){
             Upload()
@@ -392,10 +395,34 @@ class CategoryUpdateActivity : AppCompatActivity() {
                 val docrefupdate = db.collection("Categories").document(""+subCategoryParrentId)
                     .set(newCategory)
             }
+    }
+
+    fun deleteCategorySub(){
+        val editTextCategoryEditName:TextView=findViewById(R.id.editTextCategoryEditName)
+        val categorySubName=editTextCategoryEditName.text.toString()
+        val db = FirebaseFirestore.getInstance()
+        var arrayList:ArrayList<CategoryData>  = ArrayList()
+        val newCategory=CategoryData()
+
+        val docref = db.collection("Categories").document(""+subCategoryParrentId)
+        docref.get()
+            .addOnSuccessListener { document ->
+                newCategory.catId= document.getString("catId")
+                newCategory.catName=document.getString("catName")
+                newCategory.catImagePath=document.getString("catImagePath")
+                newCategory.catParrentId=document.getString("catParrentId")
 
 
+                val categoryList=CategoryWSHelper.categoryHashMapListToCategoryDataList(document.get("subCat") as List<HashMap<String, String>>)
+                newCategory.subCat=categoryList
 
+                 arrayList.addAll(categoryList)
+                 arrayList.removeAt(subCategoryIndex)
+                 newCategory.subCat=arrayList
 
+                val docrefupdate = db.collection("Categories").document(""+subCategoryParrentId)
+                    .set(newCategory)
+            }
 
 
 
