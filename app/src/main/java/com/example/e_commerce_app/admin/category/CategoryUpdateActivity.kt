@@ -24,6 +24,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class CategoryUpdateActivity : AppCompatActivity() {
     lateinit var parrentCategory:CategoryData
@@ -59,6 +63,8 @@ class CategoryUpdateActivity : AppCompatActivity() {
             setOldCategory(subCategory)
             isSub=true
             addsubCatButton.isVisible=false
+            updateButton.setText("Update Sub Category")
+            deleteButton.setText("Delete Sub Category")
 
         }
 
@@ -94,17 +100,13 @@ class CategoryUpdateActivity : AppCompatActivity() {
 
         val editTextSubCategoryName:TextView=findViewById(R.id.editTextCategoryEditName)
         val imageViewSubCategoryImage:ImageView=findViewById(R.id.imageViewEditCategoryImage)
-        val editTextTextSubCategoryImageName:TextView=findViewById(R.id.editTextCategoryEditImageName)
 
         val imageurl=(""+oldCategory.catImagePath)
 
         val httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(""+imageurl)
         oldimagename=(""+httpsReference.name).dropLast(4)
 
-        editTextTextSubCategoryImageName.setText(""+oldimagename)
         editTextSubCategoryName.setText(""+oldCategory.catName)
-
-        editTextTextSubCategoryImageName.setText(""+oldimagename)
 
         val media =(""+oldCategory.catImagePath)
         if (media !== null) {
@@ -185,9 +187,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
     private fun uploadImageToFirebaseAddSub(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditImageName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Categories/$fileName")
@@ -216,9 +218,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
     private fun uploadImageToFirebaseUpdate(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditImageName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Categories/$fileName")
@@ -229,7 +231,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
                             Toast.makeText(applicationContext, "Resim Başarıyla Yüklendi", Toast.LENGTH_SHORT).show()
-                            if(fileNameText.toString()!=oldimagename){
+                            if(fileName!=oldimagename){
                                 deleteOldImage(oldimagename)
                                 updateCategory(parrentCategory)
                             }
@@ -273,11 +275,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
 
     fun updateCategory(oldCategory: CategoryData){
         val editTextCategoryEditName:TextView=findViewById(R.id.editTextCategoryEditName)
-        val editTextTextCategoryEditImageName:TextView=findViewById(R.id.editTextCategoryEditImageName)
         val db = FirebaseFirestore.getInstance()
 
         val newCategoryName=editTextCategoryEditName.text.toString()
-        val newCategoryImageName=editTextTextCategoryEditImageName.text.toString()
 
         if(isSub==false){
             val docref = db.collection("Categories").document(""+oldCategory.catId)
@@ -285,15 +285,6 @@ class CategoryUpdateActivity : AppCompatActivity() {
             docref
                 .update("catName", ""+newCategoryName,"catImagePath",""+imageUrl)
 
-
-                .addOnSuccessListener {
-                    if(oldimagename!=editTextTextCategoryEditImageName.toString()){
-                        Toast.makeText(applicationContext, "Çöp Dosyalar Siliniyor", Toast.LENGTH_SHORT).show()
-                        deleteOldImage(oldimagename)
-
-                    }
-
-                }
         }
 
 
@@ -302,11 +293,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
     fun addSubCategory(oldCategory: CategoryData){
 
         val editTextCategoryEditName:TextView=findViewById(R.id.editTextCategoryEditName)
-        val editTextTextCategoryEditImageName:TextView=findViewById(R.id.editTextCategoryEditImageName)
         val db = FirebaseFirestore.getInstance()
 
         val subCategoryName=editTextCategoryEditName.text.toString()
-        val subCategoryImageName=editTextTextCategoryEditImageName.text.toString()
 
         val newSubCategory=CategoryData()
         val parrentCategory=oldCategory
@@ -333,9 +322,9 @@ class CategoryUpdateActivity : AppCompatActivity() {
     private fun uploadImageToFirebaseUpdateSub(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditImageName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Categories/$fileName")
@@ -346,7 +335,7 @@ class CategoryUpdateActivity : AppCompatActivity() {
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
                             Toast.makeText(applicationContext, "Resim Başarıyla Yüklendi", Toast.LENGTH_SHORT).show()
-                            if(fileNameText.toString()!=oldimagename){
+                            if(fileName!=oldimagename){
                                 deleteOldImage(oldimagename)
                                 updateCategorySub()
 

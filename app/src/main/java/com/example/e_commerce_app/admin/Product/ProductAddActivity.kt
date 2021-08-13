@@ -24,7 +24,7 @@ class ProductAddActivity : AppCompatActivity() {
         val pager=findViewById(R.id.pager) as ViewPager
 
 
-       /* val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+       /*val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
         Toast.makeText(applicationContext, ""+currentDate, Toast.LENGTH_SHORT).show()*/
 

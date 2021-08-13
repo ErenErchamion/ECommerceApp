@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoryAddActivity : AppCompatActivity() {
     private lateinit var fileUri:Uri
@@ -44,11 +47,7 @@ fun addCategory(){
     val db = FirebaseFirestore.getInstance()
 
     val catnameEditText:EditText=findViewById(R.id.editTextCategoryEditName)
-    val catimagenameEditText:EditText=findViewById(R.id.editTextCategoryEditImageName)
-
     var catname=catnameEditText.text.toString()
-    var catimagename=catimagenameEditText.text.toString()
-
 
     var newCategory=CategoryData()
 
@@ -145,9 +144,9 @@ fun addCategory(){
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextCategoryEditName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Categories/$fileName")
