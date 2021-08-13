@@ -11,10 +11,10 @@
         android:id="@+id/brandImageView"
         android:layout_width="220dp"
         android:layout_height="220dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="44dp"
         android:onClick="Upload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextBrandName"
         tools:srcCompat="@tools:sample/avatars" />
@@ -32,32 +32,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextBrandImageName"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Brand Image Name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/brandImageView"
-        app:layout_constraintVertical_bias="0.125" />
-
     <Button
         android:id="@+id/buttonAddBrand"
         android:layout_width="209dp"
         android:layout_height="48dp"
-        android:layout_marginTop="28dp"
         android:onClick="addBrand"
         android:text="Add/Edit Category"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBrandImageName"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

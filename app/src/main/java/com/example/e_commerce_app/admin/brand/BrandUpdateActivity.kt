@@ -27,6 +27,8 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.Nullable
 import androidx.core.net.toUri
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class BrandUpdateActivity : AppCompatActivity() {
@@ -44,7 +46,6 @@ class BrandUpdateActivity : AppCompatActivity() {
 
 
         val brandnameedittext:EditText=findViewById(R.id.editTextEditBrandName)
-        val brandImageNameedittext:EditText=findViewById(R.id.editTextEditBrandImageName)
         val imageViewBrandEdit:ImageView=findViewById(R.id.imageViewBrandEdit)
 
         brandnameedittext.setText(""+brand.brandName)
@@ -53,7 +54,6 @@ class BrandUpdateActivity : AppCompatActivity() {
         val httpsReference = FirebaseStorage.getInstance().getReferenceFromUrl(""+imageurl)
         oldimagename=(""+httpsReference.name).dropLast(4)
 
-        brandImageNameedittext.setText(""+oldimagename)
 
         val media =(""+brand.brandImagePath)
         if (media !== null) {
@@ -101,11 +101,9 @@ fun setBrand(){
     val db = FirebaseFirestore.getInstance()
 
     val brandnameedittext:EditText=findViewById(R.id.editTextEditBrandName)
-    val brandImageNameedittext:EditText=findViewById(R.id.editTextEditBrandImageName)
 
 
     var brandname=brandnameedittext.text.toString()
-    var brandimagename=brandImageNameedittext.text.toString()
 
     val docref = db.collection("Brands").document(""+brand.brandId)
 
@@ -114,11 +112,6 @@ fun setBrand(){
 
 
         .addOnSuccessListener {
-            if(oldimagename!=brandimagename){
-                var oldStorage = FirebaseStorage.getInstance().reference.child("Brands/$oldimagename"+".jpg")
-                    oldStorage.delete()
-
-            }
                 Toast.makeText(applicationContext, "markayı başarıyla güncellediniz", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, BrandListActivity::class.java)
                 startActivity(intent)
@@ -185,9 +178,9 @@ fun updateBrand(view: View){
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            val fileNameText = findViewById<EditText>(R.id.editTextEditBrandImageName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Brands/$fileName")
@@ -198,10 +191,13 @@ fun updateBrand(view: View){
                         taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                             imageUrl = it.toString()
                             setBrand()
+
+                            if(oldimagename!=fileName){
+                                var oldStorage = FirebaseStorage.getInstance().reference.child("Brands/$oldimagename"+".jpg")
+                                oldStorage.delete()
+                            }
                         }
                     }
-
-
                 )
 
                 ?.addOnFailureListener(OnFailureListener { e ->
@@ -220,11 +216,7 @@ fun DeleteBrand(view: View){
         .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
 
-    val fileNameText = findViewById<EditText>(R.id.editTextEditBrandImageName)
-    var filename=fileNameText.text.toString()
-    var fileName = filename +".jpg"
-
-    val storageUrl = ("Brands/"+fileName)
+    val storageUrl = ("Brands/"+oldimagename+".jpg")
     val storageReference = FirebaseStorage.getInstance().reference.child(storageUrl)
     storageReference.delete().addOnSuccessListener { // File deleted successfully
         Toast.makeText(applicationContext, "markayı başarıyla güncellediniz", Toast.LENGTH_SHORT).show()

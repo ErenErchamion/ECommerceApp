@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BrandAddActivity : AppCompatActivity() {
     private lateinit var fileUri:Uri
@@ -42,12 +44,8 @@ class BrandAddActivity : AppCompatActivity() {
     fun setBrand(){
         val db = FirebaseFirestore.getInstance()
 
-
         val brandnameEditText:EditText=findViewById(R.id.editTextBrandName)
-        val brandimagenameEditText:EditText=findViewById(R.id.editTextBrandImageName)
-
         var brandname=brandnameEditText.text.toString()
-        var brandimagename=brandimagenameEditText.text.toString()
 
 
         val newBrand=BrandData()
@@ -141,10 +139,9 @@ class BrandAddActivity : AppCompatActivity() {
     private fun uploadImageToFirebase(fileUri: Uri?) {
         if (fileUri != null) {
 
-            TODO("time stamp gelicek")
-            val fileNameText = findViewById<EditText>(R.id.editTextBrandImageName)
-            var filename=fileNameText.text.toString()
-            var fileName = filename +".jpg"
+            val sdf = SimpleDateFormat("dd:MM:yyyy:hh:mm:ss")
+            val currentDate = sdf.format(Date())
+            var fileName = currentDate +".jpg"
 
 
             var refStorage = FirebaseStorage.getInstance().reference.child("Brands/$fileName")
